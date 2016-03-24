@@ -39,10 +39,18 @@ class Game:
 
     # Draw a simple house. So snow can accumulate on top of its root also
     def drawHouse(self,surface):
-        pygame.draw.rect(surface,(140,240,130), Rect((100,150), (130,50)))
+        # draw the body of a green house
+        pygame.draw.rect(surface,(140,240,130), Rect((300,150), (130,50)))
+        # draw a red roof
+        pygame.draw.polygon(surface,(255,0,0),[[298,150],[432,150],[365,140],[298,150]],0)
+        # analyze the terrain
         if self.first_time:
-            for i in range(100,230):
-                self.snowflake_line[i]=150
+            #check for the scene
+            for i in range(self.width):
+                for j in range(self.height):
+                    if surface.get_at((i,j))!= self.background_color:
+                        self.snowflake_line[i]=j
+                        break
             self.first_time=False
 
     def loop(self):
