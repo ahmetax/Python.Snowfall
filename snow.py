@@ -24,9 +24,9 @@ class Game:
         self.snowflake_frequency = 3
         self.snowflake_size = 1
         self.snowflake_line = [height] * width # for collision detection
-        self.wind_chance = 3
-        self.wind_strength = 500
-        self.show_text = True
+        self.wind_chance = 5
+        self.wind_strength = 50
+        self.show_text = False
         # and we're off!
         self.initialize()
         self.loop()
@@ -40,9 +40,11 @@ class Game:
     # Draw a simple house. So snow can accumulate on top of its root also
     def drawHouse(self,surface):
         # draw the body of a green house
-        pygame.draw.rect(surface,(140,240,130), Rect((300,150), (130,50)))
+        #pygame.draw.rect(surface,(140,240,130), Rect((300,150), (130,50)))
         # draw a red roof
-        pygame.draw.polygon(surface,(255,0,0),[[298,150],[432,150],[365,140],[298,150]],0)
+        #pygame.draw.polygon(surface,(255,0,0),[[298,150],[432,150],[365,140],[298,150]],0)
+        img=pygame.image.load("forest.png")
+        surface.blit(img,(0,0))
         # analyze the terrain
         if self.first_time:
             #check for the scene
@@ -114,4 +116,4 @@ class Game:
                     self.show_text = False if self.show_text else True
 
 if __name__ == "__main__":
-    game = Game(600, 200, "Snow: a sprinkling of test flakes")
+    game = Game(640, 320, "Snow: a sprinkling of test flakes")
