@@ -16,7 +16,7 @@ class Game:
         self.width = width
         self.height = height
         self.caption = caption
-        self.framerate = 60 # FPS
+        self.framerate = 90 # FPS
         self.foreground_color = (255, 255, 255)
         self.background_color = (21, 26, 79)
         self.snowflakes = []
@@ -90,6 +90,10 @@ class Game:
         if self.show_text:
             self.fps_text = self.font.render("FPS: %d" % self.clock.get_fps(), 1, self.foreground_color)
             self.snowflake_text = self.font.render("Snowflakes: %d" % len(self.snowflakes), 1, self.foreground_color)
+        else:
+            self.fps_text = None
+            self.snowflake_text = None
+
         self.handle_input(pygame.event.get())
 
     def render(self, gametime):
@@ -102,6 +106,9 @@ class Game:
             snowflake.draw(surface)
 
         if self.show_text:
+            if self.fps_text == None:
+                self.fps_text = self.font.render("FPS: %d" % self.clock.get_fps(), 1, self.foreground_color)
+                self.snowflake_text = self.font.render("Snowflakes: %d" % len(self.snowflakes), 1, self.foreground_color)
             surface.blit(self.fps_text, (8, 6))
             surface.blit(self.snowflake_text, (8, 26))
         self.screen.blit(surface, (0, 0))
@@ -113,7 +120,12 @@ class Game:
                 sys.exit()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_d:
-                    self.show_text = False if self.show_text else True
+                    if self.show_text:
+                        self.show_text = False
+                    else:
+                        self.show_text = True
+                elif event.key == pygame.K_q:
+                    sys.exit()
 
 if __name__ == "__main__":
     game = Game(640, 320, "Snow: a sprinkling of test flakes")
